@@ -32,5 +32,4 @@ public class Simulation {
 	// start the eventlist
 	l.start(2000); // 2000 is maximum time
     }
-    
 }
