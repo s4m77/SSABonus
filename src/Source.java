@@ -106,7 +106,8 @@ public class Source implements CProcess
 			}
 		}
 	}
-	
+
+	// use it to generate interarrival times, with mean 1/lambda (coded below)
 	public static double drawRandomExponential(double mean)
 	{
 		// draw a [0,1] uniform distributed number
@@ -114,5 +115,18 @@ public class Source implements CProcess
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
 		return res;
+	}
+	// time here in HOURS
+	public static double lambda(double t){
+		return 3-2*Math.sin((5*Math.PI+5*t)/(6*Math.PI));
+	}
+
+	public static double drawRamdomErlang3(double lambda){
+		double prod = 1;
+		for (int i = 0; i < 3; i++) {
+			prod *= Math.random();
+		}
+		// Erlang 3 with parameter lambda = 1
+		return (-1/3)*Math.log(prod);
 	}
 }
