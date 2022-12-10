@@ -116,7 +116,6 @@ public class Source implements CProcess
 		double res = -mean*Math.log(u);
 		return res;
 	}
-<<<<<<< Updated upstream
 	// time here in HOURS
 	public static double lambda(double t){
 		return 3-2*Math.sin((5*Math.PI+5*t)/(6*Math.PI));
@@ -130,19 +129,4 @@ public class Source implements CProcess
 		// Erlang 3 with parameter lambda = 1
 		return (-1/3)*Math.log(prod);
 	}
-=======
-    // time here in HOURS
-    public static double lambda(double t){
-        return 3-2*Math.sin((5*Math.PI+5*t)/(6*Math.PI));
-    }
-
-    public static double drawRamdomErlang3(double lambda){
-        double prod = 1;
-        for (int i = 0; i < 3; i++) {
-            prod *= Math.random();
-        }
-        // Erlang 3 with parameter lambda = 1
-        return (-1/3)*Math.log(prod);
-    }
->>>>>>> Stashed changes
 }
