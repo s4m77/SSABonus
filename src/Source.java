@@ -116,6 +116,7 @@ public class Source implements CProcess
 		double res = -mean*Math.log(u);
 		return res;
 	}
+<<<<<<< Updated upstream
 	// time here in HOURS
 	public static double lambda(double t){
 		return 3-2*Math.sin((5*Math.PI+5*t)/(6*Math.PI));
