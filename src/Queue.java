@@ -23,6 +23,44 @@ public class Queue implements ProductAcceptor
 		row = new ArrayList<>();
 		requests = new ArrayList<>();
 	}
+
+	/**
+	 * Orders patients based on their level of priority
+	 * @param p the patient we want to add to the queue
+	 */
+	public void orderInQueue(Patient patient){
+		// get type of patient
+		String pType = patient.getType();
+		boolean toAdd = true;
+		// we want to prioritise patients A1
+		if (pType.equals("A1")){
+			for (int i = 0; i < row.size(); i++) {
+				Patient currPatient = (Patient)(row.get(i));
+				// if it finds a patient that is not of level A1 it will be added before that
+				if (!currPatient.getType().equals("A1")){
+					row.add(i,patient);
+					toAdd = false;
+				}
+			}
+			// if all patients were just A1 or there is no other patient
+			if (toAdd) row.add(patient);
+		}
+		else if (pType.equals("B")){
+			for (int i = 0; i < row.size(); i++) {
+				Patient currPatient = (Patient)(row.get(i));
+				// we want to put the patient before type A2 but after type A1
+				if (!(currPatient.getType().equals("B") || currPatient.getType().equals("A1"))){
+					row.add(i,patient);
+					toAdd = false;
+				}
+			}
+			if (toAdd) row.add(patient);
+		}else{
+			// if patient is of type A2 we don't care
+			row.add(patient);
+		}
+		
+	}
 	
 	/**
 	*	Asks a queue to give a product to a machine
