@@ -22,30 +22,24 @@ public class Simulation {
 		CEventList l = new CEventList();
 		// A queue for the machine
 		Queue center = new Queue();
-		// A source
 		Queue north = new Queue();
-		// A source
 		Queue south = new Queue();
-		// A source
 		Queue north_west = new Queue();
-		// A source
 		Queue north_east = new Queue();
-		// A source
 		Queue south_west = new Queue();
-		// A source
 		Queue south_east = new Queue();
 		// A source
 		Source s_center = new Source(center, l, "Source Center");
 		Source s_north = new Source(north, l, "Source 1");
 		Source s_south = new Source(south, l, "Source 1");
 		Source s_north_west = new Source(north_west, l, "Source 1");
-		Source s_north_east = new Source(north_west, l, "Source 1");
+		Source s_north_east = new Source(north_east, l, "Source 1");
 		Source s_south_west = new Source(south_west, l, "Source 1");
 		Source s_south_east = new Source(south_east, l, "Source 1");
 
 		Sink si = new Sink("Hospital");
 
-		Machine m_center1 = new Machine(center, si, l, "Machine Center");
+		/*Machine m_center1 = new Machine(center, si, l, "Machine Center");
 		Machine m_center2 = new Machine(center, si, l, "Machine Center");
 		Machine m_center3 = new Machine(center, si, l, "Machine Center");
 		Machine m_center4 = new Machine(center, si, l, "Machine Center");
@@ -85,7 +79,7 @@ public class Simulation {
 		Machine m_south_east2 = new Machine(south_east, si, l, "Machine South East");
 		Machine m_south_east3 = new Machine(south_east, si, l, "Machine South East");
 		Machine m_south_east4 = new Machine(south_east, si, l, "Machine South East");
-		Machine m_south_east5 = new Machine(south_east, si, l, "Machine South East");
+		Machine m_south_east5 = new Machine(south_east, si, l, "Machine South East");*/
 
 		// start the eventlist
 		l.start(2000); // 2000 is maximum time

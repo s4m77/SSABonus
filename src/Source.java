@@ -36,7 +36,7 @@ public class Source implements CProcess
 		name = n;
 		meanArrTime=33;
 		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,"",drawRandomExponential(meanArrTime)); //target,type,time
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class Source implements CProcess
 		name = n;
 		meanArrTime=m;
 		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,"",drawRandomExponential(meanArrTime)); //target,type,time
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class Source implements CProcess
 		interarrivalTimes=ia;
 		interArrCnt=0;
 		// put first event in list for initialization
-		list.add(this,0,interarrivalTimes[0]); //target,type,time
+		list.add(this,"",interarrivalTimes[0]); //target,type,time
 	}
 	
         @Override
-	public void execute(int type, double tme)
+	public void execute(String type, double tme)
 	{
 		// show arrival
 		System.out.println("Arrival at time = " + tme);
@@ -91,14 +91,14 @@ public class Source implements CProcess
 		{
 			double duration = drawRandomExponential(meanArrTime);
 			// Create a new event in the eventlist
-			list.add(this,0,tme+duration); //target,type,time
+			list.add(this,"",tme+duration); //target,type,time
 		}
 		else
 		{
 			interArrCnt++;
 			if(interarrivalTimes.length>interArrCnt)
 			{
-				list.add(this,0,tme+interarrivalTimes[interArrCnt]); //target,type,time
+				list.add(this,"",tme+interarrivalTimes[interArrCnt]); //target,type,time
 			}
 			else
 			{
@@ -127,6 +127,6 @@ public class Source implements CProcess
 			prod *= Math.random();
 		}
 		// Erlang 3 with parameter lambda = 1
-		return (-1/3)*Math.log(prod);
+		return (-1)*Math.log(prod);
 	}
 }

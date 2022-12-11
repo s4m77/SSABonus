@@ -11,13 +11,13 @@ class Region {
             x = Math.random()*10 - 5;
             y = Math.random()*5*Math.sqrt(3)-5*Math.sqrt(3)/2;
         }
-        if (regNumber==0) return new double[]{x,y};
-        else if(regNumber==1) return new double[]{x,y+5*Math.sqrt(3)};
-        else if(regNumber==2) return new double[]{x+7.5,y+5*Math.sqrt(3)/2};
-        else if(regNumber==4) return new double[]{x,y-5*Math.sqrt(3)};
-        else if(regNumber==3) return new double[]{x+7.5,y-5*Math.sqrt(3)/2};
-        else if(regNumber==5) return new double[]{x-7.5,y-5*Math.sqrt(3)/2};
-        else return new double[]{x-7.5,y+5*Math.sqrt(3)/2};
+        if (regNumber==0) return new double[]{x,y}; // central
+        else if(regNumber==1) return new double[]{x,y+5*Math.sqrt(3)}; //north
+        else if(regNumber==2) return new double[]{x+7.5,y+5*Math.sqrt(3)/2}; //north east
+        else if(regNumber==4) return new double[]{x,y-5*Math.sqrt(3)};//south east
+        else if(regNumber==3) return new double[]{x+7.5,y-5*Math.sqrt(3)/2};//south
+        else if(regNumber==5) return new double[]{x-7.5,y-5*Math.sqrt(3)/2};//south west
+        else return new double[]{x-7.5,y+5*Math.sqrt(3)/2}; // north west
 
     }
 

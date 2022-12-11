@@ -11,7 +11,7 @@ public class CEvent
 	/** The object involved with the event */
 	private CProcess target;
 	/** The type of the event */
-	private int type;
+	private String type;
 	/** The time on which the event will be executed */
 	private double executionTime;
 
@@ -21,13 +21,15 @@ public class CEvent
 	*	@param tp	The type of the event
 	*	@param tme	The time on which the event will be executed
 	*/
-	public CEvent(CProcess dl,int tp, double tme)
+	public CEvent(CProcess dl,String tp, double tme)
 	{
 		target=dl;
 		type=tp;
 		executionTime=tme;
 	}
-	
+	public String getType() {
+        return type;
+    }
 	/**
 	*	Method to signal the target to execute an event
 	*/
@@ -44,4 +46,6 @@ public class CEvent
 	{
 		return executionTime;
 	}
+
+
 }

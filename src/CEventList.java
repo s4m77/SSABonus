@@ -35,7 +35,7 @@ public class CEventList implements CProcess
 	*	@param type A type indicator of the event for objects that can process multiple types of events.
 	*	@param tme The time at which the event will be executed
 	*/
-	public void add(CProcess target, int type, double tme)
+	public void add(CProcess target, String type, double tme)
 	{
 		boolean success=false;
 		// First create a new event using the parameters
@@ -86,7 +86,7 @@ public class CEventList implements CProcess
 	*/
 	public void start(double mx)
 	{
-		add(this,-1,mx);
+		add(this,"finish",mx);
 		// stop criterion
 		while((events.size()>0)&&(!stopFlag))
 		{
@@ -121,9 +121,9 @@ public class CEventList implements CProcess
 	*	@param tme	The current time
 	*/
         @Override
-	public void execute(int type, double tme)
+	public void execute(String type, double tme)
 	{
-		if(type==-1)
+		if(type.equals("finish"))
 			stop();
 	}
 }

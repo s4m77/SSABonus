@@ -95,7 +95,7 @@ public class Machine implements CProcess,ProductAcceptor
 	*	@param type	The type of the event that has to be executed
 	*	@param tme	The current time
 	*/
-	public void execute(int type, double tme)
+	public void execute(String type, double tme)
 	{
 		// show arrival
 		System.out.println("Product finished at time = " + tme);
@@ -146,7 +146,7 @@ public class Machine implements CProcess,ProductAcceptor
 			double duration = drawRandomExponential(meanProcTime);
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
-			eventlist.add(this,0,tme+duration); //target,type,time
+			eventlist.add(this,"",tme+duration); //target,type,time
 			// set status to busy
 			status='b';
 		}
@@ -154,7 +154,7 @@ public class Machine implements CProcess,ProductAcceptor
 		{
 			if(processingTimes.length>procCnt)
 			{
-				eventlist.add(this,0,eventlist.getTime()+processingTimes[procCnt]); //target,type,time
+				eventlist.add(this,"",eventlist.getTime()+processingTimes[procCnt]); //target,type,time
 				// set status to busy
 				status='b';
 				procCnt++;
