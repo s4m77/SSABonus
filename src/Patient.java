@@ -1,32 +1,20 @@
 package src;
-
 import java.util.ArrayList;
-/**
- *	Product that is send trough the system
- *	@author Joel Karel
- *	@version %I%, %G%
- */
-class Product
-{
-	/** Stamps for the products */
-	protected ArrayList<Double> times;
-	protected ArrayList<String> events;
-	protected ArrayList<String> stations;
-	
-	/** 
-	*	Constructor for the product
-	*	Mark the time at which it is created
-	*	@param create The current time
-	*/
-	public Product()
-	{
-		times = new ArrayList<>();
-		events = new ArrayList<>();
-		stations = new ArrayList<>();
-	}
-	
-	
-	public void stamp(double time,String event,String station)
+public class Patient extends Product {
+    private String type;
+    private double x;
+    private double y;
+    private double time;
+
+    public Patient(double x, double y, String type, double time){
+        super();
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.time = time;
+    }
+
+    public void stamp(double time,String event,String station)
 	{
 		times.add(time);
 		events.add(event);
@@ -72,4 +60,11 @@ class Product
 		tmp = stations.toArray(tmp);
 		return tmp;
 	}
+
+    public double[] getLocation()
+    {return new double[]{this.x,this.y};}
+
+    public double getTime(){return this.time;}
+
+    public String getType(){return this.type;}
 }
