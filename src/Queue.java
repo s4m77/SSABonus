@@ -61,7 +61,7 @@ public class Queue implements ProductAcceptor
 			// if patient is of type A2 we don't care
 			row.add(patient);
 		}
-		
+		System.out.println(row.toString());
 	}
 	
 	/**
