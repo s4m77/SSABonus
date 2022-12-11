@@ -1,48 +1,57 @@
 package src;
 
+import java.util.Arrays;
+
 public class Ambulance extends Machine {
 
-    private double[] location = new double[2];
+    private static int id_counter=0;
+    private int id = 0;
+    private double[] location;
     private int dock;
-    private int start_of_work;
-    private int end_of_work;
+    private double start_of_work;
+    private double end_of_work;
+    private boolean ambulanceIsDone = false;
 
-    public Ambulance(Queue q, ProductAcceptor s, CEventList e, String n,int dock, int start_of_work) {
-        super(q, s, e, n);
+    public Ambulance(Queue q, ProductAcceptor s, CEventList e, int dock, double start_of_work) {
+        super(q, s, e, "Ambulance "+id_counter);
+        location = new double[2];
+        System.out.println(Arrays.toString(location));
+        id = id_counter;
+        id_counter++;
         this.location = getCenter(dock);
+        System.out.println(Arrays.toString(location));
         this.dock = dock;
         this.start_of_work = start_of_work;
-        this.end_of_work = start_of_work+8;
+        this.end_of_work = start_of_work+8*60;
         eventlist.add(this, "start", start_of_work);
         eventlist.add(this, "finish", end_of_work);
-        
+        System.out.println("Ambulance "+ id + " is created");
     }
 
     public double[] getLocation() {
         return location;
     }
-    public static String getFormatedTime(double time) {
-        int days = (int) time / (24*60);
-        int hours = (int) (time - days*24*60) / 60;
-        double minutes = (time - days*24*60 - hours*60) % 60;
-
-        return days+"d "+hours+"h "+minutes+"min ";
-    }
     @Override
     public void execute(String type, double tme) {
-        if(type.equals("finish")){
-            
-        }
+
         if (product!=null&&!type.equals("d")) {
             // show arrival
             
-            System.out.println("Product finished at time = " + getFormatedTime(tme));
+            System.out.println("Product finished at time = " + tme+" minutes");
             // Remove product from system
             product.stamp(tme, "Production complete", name);
             sink.giveProduct(product);
             product = null;
             location[0]=0;
-            location[1] =0;
+            location[1]=0;
+        }
+        if(product==null){
+            if(type.equals("finish")){
+                ambulanceIsDone = true;
+                queue.remove(this);
+                Machine m = new Ambulance(queue,sink,eventlist,dock,end_of_work);
+                return;
+            }
         }
         // set machine status to idle
         status = 'i';
@@ -56,7 +65,7 @@ public class Ambulance extends Machine {
         else {
             status = 'b';
             double duration = getManhattanDistance(getCenter(dock)[0], getCenter(dock)[1], 0, 0);
-            location[0]=getCenter(dock)[0];
+            location[0] = getCenter(dock)[0];
             location[1] = getCenter(dock)[1];
             eventlist.add(this, "d", eventlist.getTime() + duration);
         }
@@ -67,7 +76,7 @@ public class Ambulance extends Machine {
         // Only accept something if the machine is idle
         if (status == 'i') {
             // accept the product
-            product = p;
+            product = (Patient)p;
             // mark starting time
             product.stamp(eventlist.getTime(), "Production started", name);
             // start production
@@ -84,6 +93,7 @@ public class Ambulance extends Machine {
         Patient patient = (Patient) product;
         double x_patient = patient.getLocation()[0];
         double y_patient = patient.getLocation()[1];
+        System.out.println(Arrays.toString(location));
         double x_ambulance = location[0];
         double y_ambulance = location[1];
         double dist_pat_amb = getManhattanDistance(x_patient, y_patient, x_ambulance, y_ambulance);

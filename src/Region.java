@@ -1,5 +1,7 @@
 package src;
 
+import java.util.Arrays;
+
 class Region {
     double h = 5*Math.sqrt(3);
     double b = 10;
@@ -23,6 +25,8 @@ class Region {
 
     public static double[] getLocation(){
         int regNumber = (int)(Math.random()*7);
+        System.out.println("in region class");
+        System.out.println(Arrays.toString(drawRandom(regNumber)));
         return drawRandom(regNumber);
     }
 

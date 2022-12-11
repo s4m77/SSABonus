@@ -10,7 +10,7 @@ package src;
 public class Machine implements CProcess,ProductAcceptor
 {
 	/** Product that is being handled  */
-	protected Product product;
+	protected Patient product;
 	/** Eventlist that will manage events */
 	protected final CEventList eventlist;
 	/** Queue from which the machine has to take products */
@@ -80,7 +80,7 @@ public class Machine implements CProcess,ProductAcceptor
 		if(status=='i')
 		{
 			// accept the product
-			product=p;
+			product=(Patient)p;
 			// mark starting time
 			product.stamp(eventlist.getTime(),"Production started",name);
 			// start production

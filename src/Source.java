@@ -42,18 +42,11 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param m	Mean arrival time
 	*/
-	public static String getFormatedTime(double time) {
-        int days = (int) time / (24*60);
-        int hours = (int) (time - days*24*60) / 60;
-        double minutes = (time - days*24*60 - hours*60) % 60;
-
-        return days+"d "+hours+"h "+minutes+"min ";
-    }
         @Override
 	public void execute(String type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + getFormatedTime(tme));
+		System.out.println("Arrival at time = " + tme+" minutes");
 		// give arrived product to queue
 		double [] location = Region.getLocation();
 		Patient p = new Patient(location, type);

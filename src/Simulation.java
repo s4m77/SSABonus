@@ -28,7 +28,7 @@ public class Simulation {
 
 		for (int i = 0; i < 7; i++) {
 			for (int j = 0; j < 1; j++) {
-				Machine m = new Ambulance(queue, si, l, "Machine Center",i,7);
+				Machine m = new Ambulance(queue, si, l, i,7*60);
 			}
 		}
 

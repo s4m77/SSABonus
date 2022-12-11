@@ -116,4 +116,10 @@ public class Queue implements ProductAcceptor
 		}
 		return true;
 	}
+
+	public void remove(Machine machine){
+		while(requests.contains(machine)){
+			requests.remove(machine);
+		}
+	}
 }
