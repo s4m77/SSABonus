@@ -24,7 +24,7 @@ public class CEventList implements CProcess
 	*/
 	public CEventList()
 	{
-		currentTime = 0;
+		currentTime = 420;
 		stopFlag = false;
 		events = new ArrayList<>();
 	}

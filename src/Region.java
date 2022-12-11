@@ -4,7 +4,7 @@ class Region {
     double h = 5*Math.sqrt(3);
     double b = 10;
 
-    public double[] drawRandom(int regNumber){
+    public static double[] drawRandom(int regNumber){
         double x = Math.random()*10 - 5;
         double y = Math.random()*5*Math.sqrt(3)-5*Math.sqrt(3)/2;
         while(!isInHexagon(x,y)){
@@ -21,9 +21,13 @@ class Region {
 
     }
 
+    public static double[] getLocation(){
+        int regNumber = (int)(Math.random()*7);
+        return drawRandom(regNumber);
+    }
 
 
-    public boolean isInHexagon(double x, double y){
+    public static boolean isInHexagon(double x, double y){
         double x1 = -5; double y1 = 0;
         double x2 = -5/2; double y2 = 5*Math.sqrt(3)/2;
         double x3 = -5/2; double y3 = -5*Math.sqrt(3)/2;

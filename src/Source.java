@@ -15,12 +15,6 @@ public class Source implements CProcess
 	private ProductAcceptor queue;
 	/** Name of the source */
 	private String name;
-	/** Mean interarrival time */
-	private double meanArrTime;
-	/** Interarrival times (in case pre-specified) */
-	private double[] interarrivalTimes;
-	/** Interarrival time iterator */
-	private int interArrCnt;
 
 	/**
 	*	Constructor, creates objects
@@ -34,9 +28,10 @@ public class Source implements CProcess
 		list = l;
 		queue = q;
 		name = n;
-		meanArrTime=33;
 		// put first event in list for initialization
-		list.add(this,"",drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,"a1",list.getTime()+drawRandomExponential(1/lambda(list.getTime()/60))); 
+		list.add(this,"b",list.getTime()+drawRandomExponential(1/lambda(list.getTime()/60)));
+		list.add(this,"a2",list.getTime()+drawRandomExponential(1/lambda(list.getTime()/60)));
 	}
 
 	/**
@@ -47,64 +42,27 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param m	Mean arrival time
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double m)
-	{
-		list = l;
-		queue = q;
-		name = n;
-		meanArrTime=m;
-		// put first event in list for initialization
-		list.add(this,"",drawRandomExponential(meanArrTime)); //target,type,time
-	}
+	public static String getFormatedTime(double time) {
+        int days = (int) time / (24*60);
+        int hours = (int) (time - days*24*60) / 60;
+        double minutes = (time - days*24*60 - hours*60) % 60;
 
-	/**
-	*	Constructor, creates objects
-	*        Interarrival times are prespecified
-	*	@param q	The receiver of the products
-	*	@param l	The eventlist that is requested to construct events
-	*	@param n	Name of object
-	*	@param ia	interarrival times
-	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double[] ia)
-	{
-		list = l;
-		queue = q;
-		name = n;
-		meanArrTime=-1;
-		interarrivalTimes=ia;
-		interArrCnt=0;
-		// put first event in list for initialization
-		list.add(this,"",interarrivalTimes[0]); //target,type,time
-	}
-	
+        return days+"d "+hours+"h "+minutes+"min ";
+    }
         @Override
 	public void execute(String type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + tme);
+		System.out.println("Arrival at time = " + getFormatedTime(tme));
 		// give arrived product to queue
-		Product p = new Product();
+		double [] location = Region.getLocation();
+		Patient p = new Patient(location, type);
 		p.stamp(tme,"Creation",name);
 		queue.giveProduct(p);
 		// generate duration
-		if(meanArrTime>0)
-		{
-			double duration = drawRandomExponential(meanArrTime);
-			// Create a new event in the eventlist
-			list.add(this,"",tme+duration); //target,type,time
-		}
-		else
-		{
-			interArrCnt++;
-			if(interarrivalTimes.length>interArrCnt)
-			{
-				list.add(this,"",tme+interarrivalTimes[interArrCnt]); //target,type,time
-			}
-			else
-			{
-				list.stop();
-			}
-		}
+		double duration = drawRandomExponential(1/lambda(list.getTime()/60))*60;
+		// Create a new event in the eventlist
+		list.add(this,type,tme+duration); //target,type,time
 	}
 
 	// use it to generate interarrival times, with mean 1/lambda (coded below)
@@ -119,14 +77,5 @@ public class Source implements CProcess
 	// time here in HOURS
 	public static double lambda(double t){
 		return 3-2*Math.sin((5*Math.PI+5*t)/(6*Math.PI));
-	}
-
-	public static double drawRamdomErlang3(double lambda){
-		double prod = 1;
-		for (int i = 0; i < 3; i++) {
-			prod *= Math.random();
-		}
-		// Erlang 3 with parameter lambda = 1
-		return (-1)*Math.log(prod);
 	}
 }

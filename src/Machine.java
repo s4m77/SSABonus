@@ -45,7 +45,7 @@ public class Machine implements CProcess,ProductAcceptor
 		eventlist=e;
 		name=n;
 		meanProcTime=30;
-		queue.askProduct(this);
+		queue.askProduct(this,true);
 	}
 	
 
@@ -65,7 +65,7 @@ public class Machine implements CProcess,ProductAcceptor
 		// set machine status to idle
 		status='i';
 		// Ask the queue for products
-		queue.askProduct(this);
+		queue.askProduct(this,false);
 	}
 	
 	/**

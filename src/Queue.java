@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Queue implements ProductAcceptor
 {
 	/** List in which the products are kept */
-	private ArrayList<Product> row;
+	private ArrayList<Patient> row;
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
 	
@@ -33,11 +33,11 @@ public class Queue implements ProductAcceptor
 		String pType = patient.getType();
 		boolean toAdd = true;
 		// we want to prioritise patients A1
-		if (pType.equals("A1")){
+		if (pType.equals("a1")){
 			for (int i = 0; i < row.size(); i++) {
-				Patient currPatient = (Patient)(row.get(i));
+				Patient currPatient = row.get(i);
 				// if it finds a patient that is not of level A1 it will be added before that
-				if (!currPatient.getType().equals("A1")){
+				if (!currPatient.getType().equals("a1")){
 					row.add(i,patient);
 					toAdd = false;
 				}
@@ -45,11 +45,11 @@ public class Queue implements ProductAcceptor
 			// if all patients were just A1 or there is no other patient
 			if (toAdd) row.add(patient);
 		}
-		else if (pType.equals("B")){
+		else if (pType.equals("b")){
 			for (int i = 0; i < row.size(); i++) {
-				Patient currPatient = (Patient)(row.get(i));
+				Patient currPatient = row.get(i);
 				// we want to put the patient before type A2 but after type A1
-				if (!(currPatient.getType().equals("B") || currPatient.getType().equals("A1"))){
+				if (!(currPatient.getType().equals("b") || currPatient.getType().equals("a1"))){
 					row.add(i,patient);
 					toAdd = false;
 				}
@@ -66,7 +66,7 @@ public class Queue implements ProductAcceptor
 	*	Asks a queue to give a product to a machine
 	*	True is returned if a product could be delivered; false if the request is queued
 	*/
-	public boolean askProduct(Machine machine)
+	public boolean askProduct(Machine machine,boolean makeRequest)
 	{
 		// This is only possible with a non-empty queue
 		if(row.size()>0)
@@ -81,8 +81,9 @@ public class Queue implements ProductAcceptor
 				return false; // Machine rejected; don't queue request
 		}
 		else
-		{
-			requests.add(machine);
+		{	
+			if(makeRequest)
+				requests.add(machine);
 			return false; // queue request
 		}
 	}
@@ -93,9 +94,11 @@ public class Queue implements ProductAcceptor
 	*/
 	public boolean giveProduct(Product p)
 	{
+		
 		// Check if the machine accepts it
 		if(requests.size()<1)
-			row.add(p); // Otherwise store it
+			this.orderInQueue((Patient)p);
+			//row.add((Patient)p); // Otherwise store it
 		else
 		{
 			boolean delivered = false;
@@ -106,7 +109,8 @@ public class Queue implements ProductAcceptor
 				requests.remove(0);
 			}
 			if(!delivered)
-				row.add(p); // Otherwise store it
+				this.orderInQueue((Patient)p);
+				//row.add((Patient)p); // Otherwise store it
 		}
 		return true;
 	}
