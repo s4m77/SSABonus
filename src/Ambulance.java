@@ -12,13 +12,7 @@ public class Ambulance extends Machine {
         this.location = getCenter(dock);
         this.dock = dock;
         this.start_of_work = start_of_work;
-        int option = (int) (Math.random() * 2);
-        if (start_of_work != 23 && (option == 0 || start_of_work == 21 || start_of_work == 20 || start_of_work == 19
-                || start_of_work == 18)) {
-            this.end_of_work = start_of_work + 4;
-        } else {
-            this.end_of_work = start_of_work + 8;
-        }
+        this.end_of_work = start_of_work+8;
     }
 
     public double[] getLocation() {
