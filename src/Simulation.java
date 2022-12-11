@@ -23,17 +23,17 @@ public class Simulation {
 		// A queue for the machine
 		Queue queue = new Queue();
 		// A source
-		Source s_center = new Source(queue, l, "Source Center");
+		Source s= new Source(queue, l, "Source Center");
 		Sink si = new Sink("Hospital");
 
 		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 5; j++) {
-				Machine m_center1 = new Ambulance(queue, si, l, "Machine Center",i,7);
+			for (int j = 0; j < 1; j++) {
+				Machine m = new Ambulance(queue, si, l, "Machine Center",i,7);
 			}
 		}
 
 		// start the eventlist
-		l.start(5000); // 2000 is maximum time
+		l.start(55*60); // 2000 is maximum time
 	}
 
 }

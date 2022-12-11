@@ -40,6 +40,7 @@ public class Queue implements ProductAcceptor
 				if (!currPatient.getType().equals("a1")){
 					row.add(i,patient);
 					toAdd = false;
+					break;
 				}
 			}
 			// if all patients were just A1 or there is no other patient
@@ -52,6 +53,7 @@ public class Queue implements ProductAcceptor
 				if (!(currPatient.getType().equals("b") || currPatient.getType().equals("a1"))){
 					row.add(i,patient);
 					toAdd = false;
+					break;
 				}
 			}
 			if (toAdd) row.add(patient);

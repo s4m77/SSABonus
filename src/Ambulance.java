@@ -13,6 +13,9 @@ public class Ambulance extends Machine {
         this.dock = dock;
         this.start_of_work = start_of_work;
         this.end_of_work = start_of_work+8;
+        eventlist.add(this, "start", start_of_work);
+        eventlist.add(this, "finish", end_of_work);
+        
     }
 
     public double[] getLocation() {
@@ -27,7 +30,10 @@ public class Ambulance extends Machine {
     }
     @Override
     public void execute(String type, double tme) {
-        if (!type.equals("d")) {
+        if(type.equals("finish")){
+            
+        }
+        if (product!=null&&!type.equals("d")) {
             // show arrival
             
             System.out.println("Product finished at time = " + getFormatedTime(tme));
