@@ -27,13 +27,13 @@ public class Simulation {
 		Sink si = new Sink("Hospital");
 
 		for (int i = 0; i < 7; i++) {
-			for (int j = 0; j < 1; j++) {
+			for (int j = 0; j < 5; j++) {
 				Machine m = new Ambulance(queue, si, l, i,7*60);
 			}
 		}
 
 		// start the eventlist
-		l.start(55*60); // 2000 is maximum time
+		l.start((24*10+7)*60); // 2000 is maximum time
 	}
 
 }

@@ -1,7 +1,4 @@
 package src;
-
-import java.util.Arrays;
-
 public class Ambulance extends Machine {
 
     private static int id_counter=0;
@@ -15,11 +12,9 @@ public class Ambulance extends Machine {
     public Ambulance(Queue q, ProductAcceptor s, CEventList e, int dock, double start_of_work) {
         super(q, s, e, "Ambulance "+id_counter);
         location = new double[2];
-        System.out.println(Arrays.toString(location));
         id = id_counter;
         id_counter++;
         this.location = getCenter(dock);
-        System.out.println(Arrays.toString(location));
         this.dock = dock;
         this.start_of_work = start_of_work;
         this.end_of_work = start_of_work+8*60;
@@ -93,7 +88,6 @@ public class Ambulance extends Machine {
         Patient patient = (Patient) product;
         double x_patient = patient.getLocation()[0];
         double y_patient = patient.getLocation()[1];
-        System.out.println(Arrays.toString(location));
         double x_ambulance = location[0];
         double y_ambulance = location[1];
         double dist_pat_amb = getManhattanDistance(x_patient, y_patient, x_ambulance, y_ambulance);

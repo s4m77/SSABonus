@@ -12,7 +12,7 @@ public class Queue implements ProductAcceptor
 	/** List in which the products are kept */
 	private ArrayList<Patient> row;
 	/** Requests from machine that will be handling the products */
-	private ArrayList<Machine> requests;
+	private ArrayList<Ambulance> requests;
 	
 	/**
 	*	Initializes the queue and introduces a dummy machine
@@ -68,12 +68,13 @@ public class Queue implements ProductAcceptor
 	*	Asks a queue to give a product to a machine
 	*	True is returned if a product could be delivered; false if the request is queued
 	*/
-	public boolean askProduct(Machine machine,boolean makeRequest)
+	public boolean askProduct(Ambulance machine,boolean makeRequest)
 	{
 		// This is only possible with a non-empty queue
 		if(row.size()>0)
 		{
 			// If the machine accepts the product
+			
 			if(machine.giveProduct(row.get(0)))
 			{
 				row.remove(0);// Remove it from the queue
@@ -106,7 +107,20 @@ public class Queue implements ProductAcceptor
 			boolean delivered = false;
 			while(!delivered & (requests.size()>0))
 			{
-				delivered=requests.get(0).giveProduct(p);
+				double minDistance = 1000;
+				int minMachine = 0;
+				for (int i = 0; i < requests.size(); i++) {
+					double x = requests.get(i).getLocation()[0];
+					double y = requests.get(i).getLocation()[1];
+					double x_patient = ((Patient)p).getLocation()[0];
+					double y_patient = ((Patient)p).getLocation()[1];
+					if(minDistance>=getManhattanDistance(x_patient, y_patient, x, y)){
+						minDistance=getManhattanDistance(x_patient, y_patient, x, y);
+						minMachine = i;
+					}
+
+				}
+				delivered=requests.get(minMachine).giveProduct(p);
 				// remove the request regardless of whether or not the product has been accepted
 				requests.remove(0);
 			}
@@ -122,4 +136,7 @@ public class Queue implements ProductAcceptor
 			requests.remove(machine);
 		}
 	}
+	public double getManhattanDistance(double x1, double y1, double x2, double y2) {
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    }
 }
