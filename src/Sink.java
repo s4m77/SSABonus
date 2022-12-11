@@ -13,6 +13,7 @@ public class Sink implements ProductAcceptor
 	/** All properties of products are kept */
 	private ArrayList<Integer> numbers;
 	private ArrayList<Double> times;
+	private ArrayList<Integer> types;
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
 	/** Counter to number products */
@@ -26,6 +27,7 @@ public class Sink implements ProductAcceptor
 	public Sink(String n)
 	{
 		name = n;
+		types = new ArrayList<>();
 		products = new ArrayList<>();
 		numbers = new ArrayList<>();
 		times = new ArrayList<>();
@@ -37,14 +39,24 @@ public class Sink implements ProductAcceptor
         @Override
 	public boolean giveProduct(Product p)
 	{
+		Patient patient = (Patient) p;
 		number++;
 		products.add(p);
+		int typeNumber = 0;
+		if (patient.getType().equals("a1")){
+			typeNumber = 1;
+		}else if (patient.getType().equals("a2")){
+			typeNumber = 2;
+		}else{
+			typeNumber = 3;
+		}
 		// store stamps
 		ArrayList<Double> t = p.getTimes();
 		ArrayList<String> e = p.getEvents();
 		ArrayList<String> s = p.getStations();
 		for(int i=0;i<t.size();i++)
 		{
+			types.add(typeNumber);
 			numbers.add(number);
 			times.add(t.get(i));
 			events.add(e.get(i));
@@ -52,6 +64,17 @@ public class Sink implements ProductAcceptor
 		}
 		return true;
 	}
+
+	public int[] getTypes()
+    {
+        types.trimToSize();
+        int[] tmp = new int[types.size()];
+        for (int i=0; i < types.size(); i++)
+        {
+            tmp[i] = (types.get(i)).intValue();
+        }
+        return tmp;
+    }
 	
 	public int[] getNumbers()
 	{
