@@ -61,7 +61,7 @@ public class Queue implements ProductAcceptor
 			// if patient is of type A2 we don't care
 			row.add(patient);
 		}
-		//System.out.println(row.toString());
+		System.out.println(row.toString());
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class Queue implements ProductAcceptor
 		{
 			boolean delivered = false;
 			while(!delivered & (requests.size()>0))
-			{	
+			{
 				double minDistance = 1000;
 				int minMachine = 0;
 				for (int i = 0; i < requests.size(); i++) {
@@ -122,7 +122,7 @@ public class Queue implements ProductAcceptor
 				}
 				delivered=requests.get(minMachine).giveProduct(p);
 				// remove the request regardless of whether or not the product has been accepted
-				requests.remove(minMachine);
+				requests.remove(0);
 			}
 			if(!delivered)
 				this.orderInQueue((Patient)p);

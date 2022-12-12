@@ -1,7 +1,5 @@
 package src;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -48,7 +46,7 @@ public class Source implements CProcess
 	public void execute(String type, double tme)
 	{
 		// show arrival
-		//System.out.println("Arrival at time = " + tme+" minutes");
+		System.out.println("Arrival at time = " + tme+" minutes");
 		// give arrived product to queue
 		double [] location = Region.getLocation();
 		Patient p = new Patient(location, type);
