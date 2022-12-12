@@ -19,8 +19,8 @@ public class Ambulance extends Machine {
         this.start_of_work = start_of_work;
         this.end_of_work = start_of_work+8*60;
         eventlist.add(this, "start", start_of_work);
-        eventlist.add(this, "finish", end_of_work);
-        System.out.println("Ambulance "+ id + " is created");
+        eventlist.add(this, "stop", end_of_work);
+        //System.out.println("Ambulance "+ id + " is created");
     }
 
     public double[] getLocation() {
@@ -28,11 +28,11 @@ public class Ambulance extends Machine {
     }
     @Override
     public void execute(String type, double tme) {
-
+        
         if (product!=null&&!type.equals("d")) {
             // show arrival
             
-            System.out.println("Product finished at time = " + tme+" minutes");
+            //System.out.println("Product finished at time = " + tme+" minutes");
             // Remove product from system
             product.stamp(tme, "Production complete", name);
             sink.giveProduct(product);
@@ -41,7 +41,7 @@ public class Ambulance extends Machine {
             location[1]=0;
         }
         if(product==null){
-            if(type.equals("finish")){
+            if(type.equals("stop")){
                 ambulanceIsDone = true;
                 queue.remove(this);
                 Machine m = new Ambulance(queue,sink,eventlist,dock,end_of_work);
@@ -73,7 +73,13 @@ public class Ambulance extends Machine {
             // accept the product
             product = (Patient)p;
             // mark starting time
-            product.stamp(eventlist.getTime(), "Production started", name);
+            Patient patient = (Patient) product;
+            double x_patient = patient.getLocation()[0];
+            double y_patient = patient.getLocation()[1];
+            double x_ambulance = location[0];
+            double y_ambulance = location[1];
+            double dist_pat_amb = getManhattanDistance(x_patient, y_patient, x_ambulance, y_ambulance);
+            product.stamp(eventlist.getTime()+dist_pat_amb, "Pick up started", name);
             // start production
             startProduction();
             // Flag that the product has arrived

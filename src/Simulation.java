@@ -5,10 +5,7 @@
  */
 
 package src;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 public class Simulation {
 
 	public CEventList list;
@@ -26,7 +23,8 @@ public class Simulation {
         double totalWaitingTimeA2 = 0;
         ArrayList<Double> badmins = new ArrayList<>();
         double totalWaitingTimeB = 0;
-        int runs = 1;
+        int runs = 101;
+		double [][] results = new double[runs][4];
 
         for (int j = 0; j < runs; j++) {
                 CEventList l = new CEventList();
@@ -38,12 +36,12 @@ public class Simulation {
 
             for (int i = 0; i < 7; i++) {
                 for (int k = 0; k < 5; k++) {
-                    Machine m = new Ambulance(queue, si, l, i,7*60);
+                    Machine m = new Ambulance(queue, si, l, i,420);
                 }
             }
 
-            // start the eventlist
-            l.start((24*10+7)*60);
+            // 1 days simulation
+            l.start(24*60+420);
 
             // to compute different statistics
             int size = si.getNumbers().length;
@@ -81,6 +79,10 @@ public class Simulation {
                     tempTotalWB += arr[k][3] - arr[k][2];
                 }
             }
+			results[j][0] = tempTotalA1Less15/tempTotalA1;
+			results[j][1] = tempTotalWA1/arr.length;
+			results[j][2] = tempTotalWA2/arr.length;
+			results[j][3] = tempTotalWB/arr.length;
 
             totalA1Less15Ratio += tempTotalA1Less15/tempTotalA1;
             totalWaitingTimeA1 += tempTotalWA1/arr.length;
@@ -93,8 +95,27 @@ public class Simulation {
         totalWaitingTimeA2 /= runs;
         totalWaitingTimeB /= runs;
 
-        System.out.println(totalA1Less15Ratio+" "+totalWaitingTimeA1+" "+totalWaitingTimeA2+" "+totalWaitingTimeB);
-        System.out.println(badmins.toString());
+		double [] variances = new double[4]; 
+		for (int i = 0; i < runs; i++) {
+			variances[0] += Math.pow((totalA1Less15Ratio-results[i][0]),2);
+			variances[1] += Math.pow((totalWaitingTimeA1-results[i][1]),2);
+			variances[2] += Math.pow((totalWaitingTimeA2-results[i][2]),2);
+			variances[3] += Math.pow((totalWaitingTimeB-results[i][3]),2);
+			
+		}
+		variances[0] /= (runs-1);
+		variances[1] /= (runs-1);
+		variances[2] /= (runs-1);
+		variances[3] /= (runs-1);
+
+		System.out.println("Confidence interval for ratio of 15 min responding time:");
+		System.out.println((totalA1Less15Ratio-1.984*Math.sqrt(variances[0]/runs))+"|"+(totalA1Less15Ratio+1.984*Math.sqrt(variances[0]/runs)));
+		System.out.println("Confidence interval for waiting time of a1:");
+		System.out.println((totalWaitingTimeA1-1.984*Math.sqrt(variances[1]/runs))+"|"+(totalWaitingTimeA1+1.984*Math.sqrt(variances[1]/runs)));
+		System.out.println("Confidence interval for waiting time of a2:");
+		System.out.println((totalWaitingTimeA2-1.984*Math.sqrt(variances[2]/runs))+"|"+(totalWaitingTimeA2+1.984*Math.sqrt(variances[2]/runs)));
+		System.out.println("Confidence interval for waiting time of b:");
+		System.out.println((totalWaitingTimeB-1.984*Math.sqrt(variances[3]/runs))+"|"+(totalWaitingTimeB+1.984*Math.sqrt(variances[3]/runs)));
 
 		// for (int i = 0; i < arr.length; i++) {
         //     for (int j = 0; j < 4; j++) {
