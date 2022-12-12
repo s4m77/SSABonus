@@ -15,6 +15,4 @@ public class Patient extends Product {
     {return new double[]{this.x,this.y};}
 
     public String getType(){return this.type;}
-
-    public String toString(){return this.type;}
 }
