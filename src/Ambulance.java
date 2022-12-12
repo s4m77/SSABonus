@@ -18,8 +18,6 @@ public class Ambulance extends Machine {
         this.dock = dock;
         this.start_of_work = start_of_work;
         this.end_of_work = start_of_work+8*60;
-        eventlist.add(this, "start", start_of_work);
-        eventlist.add(this, "finish", end_of_work);
         System.out.println("Ambulance "+ id + " is created");
     }
 
@@ -39,14 +37,6 @@ public class Ambulance extends Machine {
             product = null;
             location[0]=0;
             location[1]=0;
-        }
-        if(product==null){
-            if(type.equals("finish")){
-                ambulanceIsDone = true;
-                queue.remove(this);
-                Machine m = new Ambulance(queue,sink,eventlist,dock,end_of_work);
-                return;
-            }
         }
         // set machine status to idle
         status = 'i';
@@ -73,7 +63,7 @@ public class Ambulance extends Machine {
             // accept the product
             product = (Patient)p;
             // mark starting time
-            product.stamp(eventlist.getTime(), "Production started", name);
+
             // start production
             startProduction();
             // Flag that the product has arrived
@@ -95,6 +85,7 @@ public class Ambulance extends Machine {
         double duration = dist_pat_amb + drawRamdomErlang3() + dist_pat_hos;
         // Create a new event in the eventlist
         double tme = eventlist.getTime();
+        product.stamp(eventlist.getTime()+dist_pat_amb, "Production started", name);
         eventlist.add(this, patient.getType(), tme + duration); // target,type,time
         // set status to busy
         status = 'b';

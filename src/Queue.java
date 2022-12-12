@@ -61,7 +61,7 @@ public class Queue implements ProductAcceptor
 			// if patient is of type A2 we don't care
 			row.add(patient);
 		}
-		System.out.println(row.toString());
+		
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class Queue implements ProductAcceptor
 				}
 				delivered=requests.get(minMachine).giveProduct(p);
 				// remove the request regardless of whether or not the product has been accepted
-				requests.remove(0);
+				requests.remove(minMachine);
 			}
 			if(!delivered)
 				this.orderInQueue((Patient)p);
